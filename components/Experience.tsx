@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { FiBriefcase, FiCalendar, FiMapPin } from 'react-icons/fi';
+import { Briefcase, Calendar, MapPin, Code2, Cloud, Bot, Zap } from 'lucide-react';
 
 const experiences = [
   {
@@ -14,7 +14,8 @@ const experiences = [
       'Building responsive UI and working in a cloud-based environment',
       'Debugging and collaborating on real-time projects',
     ],
-    icon: '☕',
+    icon: Code2,
+    color: 'from-blue-500 to-cyan-500'
   },
   {
     title: 'DevOps Intern',
@@ -26,7 +27,8 @@ const experiences = [
       'Handling version control and automation tasks',
       'Supporting deployment, monitoring, and infrastructure-related tasks',
     ],
-    icon: '☁️',
+    icon: Cloud,
+    color: 'from-purple-500 to-pink-500'
   },
   {
     title: 'AI & Machine Learning Intern',
@@ -38,7 +40,8 @@ const experiences = [
       'Gained practical experience in model training, evaluation, and deployment aligned with industry standards',
       'Focused on AI and ML applications using Python',
     ],
-    icon: '🤖',
+    icon: Bot,
+    color: 'from-emerald-500 to-teal-500'
   },
   {
     title: 'AI and Prompt Engineering Intern',
@@ -50,93 +53,84 @@ const experiences = [
       'Developed and integrated AI tools using Python and OpenAI APIs, improving task efficiency',
       'Collaborated cross-functionally to build and test AI-driven applications',
     ],
-    icon: '⚡',
+    icon: Zap,
+    color: 'from-orange-500 to-red-500'
   },
 ];
 
 export default function Experience() {
   return (
-    <section
-      id="experience"
-      className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 bg-white dark:bg-gray-900"
-    >
+    <section id="experience" className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20 md:mb-24"
+          className="text-center mb-16 md:mb-24"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Experience
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
+            Work <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">Experience</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-brand-primary to-brand-secondary mx-auto rounded-full blur-[1px]"></div>
         </motion.div>
 
         <div className="relative">
-          {/* Timeline line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 to-purple-600 transform md:-translate-x-1/2"></div>
+          {/* Vertical Grid Line */}
+          <div className="absolute left-6 md:left-1/2 top-4 bottom-4 w-px bg-white/10 md:-translate-x-1/2"></div>
 
-          <div className="space-y-16 md:space-y-20 lg:space-y-24">
-            {experiences.map((exp, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                className={`relative flex flex-col md:flex-row items-center ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
-                  }`}
-              >
-                {/* Timeline dot */}
-                <div className="absolute left-8 md:left-1/2 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-900 transform md:-translate-x-1/2 z-10"></div>
-
-                {/* Content card */}
-                <div
-                  className={`w-full md:w-5/12 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:pl-8 md:text-left md:ml-auto'
+          <div className="space-y-12 md:space-y-24">
+            {experiences.map((exp, index) => {
+              const Icon = exp.icon;
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  className={`relative flex flex-col md:flex-row gap-8 md:gap-0 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
                     }`}
                 >
-                  <motion.div
-                    whileHover={{ scale: 1.02, y: -5 }}
-                    className="bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 p-8 md:p-10 rounded-xl shadow-lg"
-                  >
-                    <div className={`flex items-center gap-3 mb-4 ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
-                      <span className="text-3xl">{exp.icon}</span>
-                      <div>
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {/* Timeline Dot */}
+                  <div className="absolute left-6 md:left-1/2 w-12 h-12 -ml-6 md:-ml-6 bg-neutral-950 border border-white/10 rounded-xl flex items-center justify-center z-10 shadow-xl">
+                    <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${exp.color} opacity-20 absolute`} />
+                    <Icon className="w-5 h-5 text-gray-300 relative z-10" />
+                  </div>
+
+                  <div className={`w-full md:w-1/2 pl-16 md:pl-0 ${index % 2 === 0 ? 'md:pr-16 lg:pr-24 lg:text-right' : 'md:pl-16 lg:pl-24 lg:text-left'
+                    }`}>
+                    <div className="glass-card p-8 rounded-3xl hover:bg-neutral-900/60 transition-colors group">
+                      <div className={`flex flex-col gap-2 mb-6 ${index % 2 === 0 ? 'lg:items-end' : 'lg:items-start'}`}>
+                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-gray-400`}>
+                          <Calendar className="w-3.5 h-3.5" />
+                          {exp.period}
+                        </span>
+                        <h3 className="text-2xl font-bold text-white group-hover:text-brand-primary transition-colors">
                           {exp.title}
                         </h3>
-                        <p className="text-lg text-blue-600 dark:text-blue-400 font-semibold">
+                        <p className="text-lg font-medium text-gray-400">
                           {exp.company}
                         </p>
+                        <div className="flex items-center gap-1.5 text-sm text-gray-500">
+                          <MapPin className="w-4 h-4" />
+                          {exp.location}
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="space-y-2 mb-4">
-                      <div className={`flex items-center gap-2 text-gray-600 dark:text-gray-300 ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
-                        <FiCalendar className="w-4 h-4" />
-                        <span>{exp.period}</span>
-                      </div>
-                      <div className={`flex items-center gap-2 text-gray-600 dark:text-gray-300 ${index % 2 === 0 ? 'md:justify-end' : ''}`}>
-                        <FiMapPin className="w-4 h-4" />
-                        <span>{exp.location}</span>
-                      </div>
+                      <ul className={`space-y-3 text-gray-400 text-sm md:text-base leading-relaxed ${index % 2 === 0 ? 'lg:text-right' : 'lg:text-left'}`}>
+                        {exp.description.map((item, i) => (
+                          <li key={i} className={`flex items-start gap-3 ${index % 2 === 0 ? 'lg:flex-row-reverse' : 'flex-row'}`}>
+                            <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-brand-primary shrink-0 opacity-50" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-
-                    <ul className={`space-y-2 text-gray-700 dark:text-gray-300 ${index % 2 === 0 ? 'md:text-right' : ''}`}>
-                      {exp.description.map((item, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          {index % 2 === 0 && <span className="md:hidden">•</span>}
-                          <span>{item}</span>
-                          {index % 2 !== 0 && <span>•</span>}
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiGithub, FiExternalLink } from 'react-icons/fi';
+import { Github, ExternalLink, MoveUpRight } from 'lucide-react';
 
 const projects = [
   {
@@ -11,25 +11,27 @@ const projects = [
     category: 'ai',
     description:
       'An intelligent shopping assistant powered by AI that helps users find and purchase products using natural language processing. Built with Flask, Selenium for web automation, OpenAI API, and Hugging Face models.',
-    tech: ['Flask', 'Selenium', 'Python', 'OpenAI', 'Hugging Face'],
+    tech: ['Flask', 'Selenium', 'Python', 'OpenAI'],
     github: '#',
     demo: '#',
-    image: '🤖',
+    image: '🛍️',
+    color: 'from-blue-500/20 to-purple-500/20',
   },
   {
     id: 2,
-    title: 'Online Senior Support Group Management System',
+    title: 'Senior Support Platform',
     category: 'web',
     description:
       'A comprehensive web-based platform for managing senior support groups, facilitating communication, scheduling events, and resource sharing. Built with PHP and MySQL for robust backend functionality.',
-    tech: ['PHP', 'MySQL', 'HTML', 'CSS', 'JavaScript'],
+    tech: ['PHP', 'MySQL', 'HTML', 'CSS', 'JS'],
     github: '#',
     demo: '#',
-    image: '👥',
+    image: '🤝',
+    color: 'from-emerald-500/20 to-teal-500/20',
   },
   {
     id: 3,
-    title: 'Train & Bus Enquiry System',
+    title: 'Transit Enquiry System',
     category: 'web',
     description:
       'A real-time transportation enquiry system providing train and bus schedules, availability, and booking information. Developed using Flask framework with REST API integration.',
@@ -37,21 +39,23 @@ const projects = [
     github: '#',
     demo: '#',
     image: '🚄',
+    color: 'from-orange-500/20 to-red-500/20',
   },
   {
     id: 4,
-    title: 'Driver Drowsiness Detection',
+    title: 'Drowsiness Detection',
     category: 'ai',
     description:
       'A computer vision-based system that detects driver drowsiness in real-time using facial landmarks and eye tracking. Utilizes Mediapipe for face detection and OpenCV for image processing.',
-    tech: ['Mediapipe', 'OpenCV', 'Python', 'Computer Vision'],
+    tech: ['Mediapipe', 'OpenCV', 'Python', 'CV'],
     github: '#',
     demo: '#',
-    image: '😴',
+    image: '👁️',
+    color: 'from-indigo-500/20 to-cyan-500/20',
   },
 ];
 
-const categories = ['all', 'web', 'ai', 'ml'];
+const categories = ['all', 'web', 'ai'];
 
 export default function Projects() {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -62,39 +66,40 @@ export default function Projects() {
       : projects.filter((project) => project.category === selectedCategory);
 
   return (
-    <section
-      id="projects"
-      className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-800"
-    >
+    <section id="projects" className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20 md:mb-24"
+          className="text-center mb-16 md:mb-20"
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Projects
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
+            Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">Projects</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-10 md:mb-12"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-brand-primary to-brand-secondary mx-auto rounded-full blur-[1px] mb-12"></div>
 
           {/* Filter buttons */}
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-3">
             {categories.map((category) => (
-              <motion.button
+              <button
                 key={category}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full font-medium transition-all ${
-                  selectedCategory === category
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                    : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
-                }`}
+                className={`relative px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${selectedCategory === category
+                    ? 'text-white'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  }`}
               >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </motion.button>
+                {selectedCategory === category && (
+                  <motion.div
+                    layoutId="project-filter-active"
+                    className="absolute inset-0 bg-white/10 border border-white/20 rounded-full"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10 uppercase tracking-wider">{category}</span>
+              </button>
             ))}
           </div>
         </motion.div>
@@ -102,61 +107,63 @@ export default function Projects() {
         <AnimatePresence mode="wait">
           <motion.div
             key={selectedCategory}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4 }}
+            className="grid md:grid-cols-2 gap-8"
           >
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden group"
+                className="group relative glass-card rounded-3xl overflow-hidden"
               >
-                <div className="h-56 md:h-64 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-6xl md:text-7xl">
-                  {project.image}
-                </div>
-                <div className="p-6 md:p-8">
-                  <h3 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3 md:mb-4">
+                <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
+
+                <div className="p-8 md:p-10 relative z-10 h-full flex flex-col">
+                  <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-3xl mb-8 group-hover:scale-110 group-hover:bg-white/10 transition-all duration-500">
+                    {project.image}
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-brand-primary transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8 leading-relaxed text-base md:text-lg">
+
+                  <p className="text-gray-400 text-sm md:text-base leading-relaxed mb-8 flex-grow">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-2 md:gap-3 mb-6 md:mb-8">
+
+                  <div className="flex flex-wrap gap-2 mb-8">
                     {project.tech.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm"
+                        className="px-3 py-1 bg-white/5 border border-white/10 text-gray-300 rounded-lg text-xs font-medium tracking-wide"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
-                  <div className="flex gap-4">
-                    <motion.a
+
+                  <div className="flex items-center gap-4 mt-auto pt-4 border-t border-white/10">
+                    <a
                       href={project.github}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      className="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-white transition-colors"
                     >
-                      <FiGithub className="w-5 h-5" />
-                      <span>Code</span>
-                    </motion.a>
-                    <motion.a
+                      <Github className="w-4 h-4" />
+                      Code
+                    </a>
+                    <div className="w-px h-4 bg-white/10" />
+                    <a
                       href={project.demo}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                      className="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-brand-primary transition-colors group/link"
                     >
-                      <FiExternalLink className="w-5 h-5" />
-                      <span>Demo</span>
-                    </motion.a>
+                      Live Demo
+                      <MoveUpRight className="w-4 h-4 opacity-70 group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 transition-transform" />
+                    </a>
                   </div>
                 </div>
               </motion.div>
